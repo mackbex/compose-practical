@@ -16,7 +16,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,26 +25,26 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mackbex.rickdex.core.ui.components.BodyText
 import com.mackbex.rickdex.core.ui.components.LabelText
+import com.mackbex.rickdex.core.ui.navigation.CharacterDetailNavKey
 import com.mackbex.rickdex.core.ui.theme.RickdexTheme
 
 
 @Composable
 fun CharacterDetailRoute(
-  characterId: Int,
+  navKey: CharacterDetailNavKey,
   onBack: () -> Unit,
   modifier: Modifier = Modifier,
-  viewModel: CharacterDetailViewModel = hiltViewModel()
 ) {
+  val viewModel = hiltViewModel<CharacterDetailViewModel, CharacterDetailViewModel.Factory>(
+    creationCallback = { factory -> factory.create(navKey = navKey) }
+  )
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-  LaunchedEffect(characterId) {
-    viewModel.load(characterId)
-  }
 
   CharacterDetailScreen(
     uiState = uiState,
     onBack = onBack,
-    onRetry = { viewModel.load(characterId) },
+    onRetry = viewModel::load,
     modifier = modifier
   )
 }

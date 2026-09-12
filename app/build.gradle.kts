@@ -45,6 +45,7 @@ dependencies {
   implementation(project(":feature:list"))
   implementation(project(":feature:detail"))
 
+  implementation(libs.androidx.lifecycle.viewmodel.navigation3)
   implementation(libs.hilt.android)
   ksp(libs.hilt.compiler)
   implementation(libs.androidx.hilt.navigation.compose)

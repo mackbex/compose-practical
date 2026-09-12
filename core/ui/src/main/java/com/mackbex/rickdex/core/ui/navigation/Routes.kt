@@ -1,4 +1,4 @@
-package com.mackbex.rickdex
+package com.mackbex.rickdex.core.ui.navigation
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable

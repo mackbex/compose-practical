@@ -1,6 +1,7 @@
 plugins {
   alias(libs.plugins.android.library)
   alias(libs.plugins.kotlin.compose)
+  alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -25,6 +26,8 @@ android {
 }
 
 dependencies {
+  api(libs.androidx.navigation3.runtime)
+  implementation(libs.kotlinx.serialization.json)
   implementation(platform(libs.androidx.compose.bom))
   api(libs.androidx.compose.ui)
   api(libs.androidx.compose.material3)
