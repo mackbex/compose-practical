@@ -13,9 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mackbex.rickdex.core.ui.theme.RickdexTheme
 import com.mackbex.rickdex.domain.model.Character
 import com.mackbex.rickdex.domain.model.sampleCharacters
-import com.mackbex.rickdex.ui.theme.RickdexTheme
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

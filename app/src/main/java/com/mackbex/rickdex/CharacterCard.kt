@@ -8,20 +8,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mackbex.rickdex.core.ui.components.CaptionText
+import com.mackbex.rickdex.core.ui.components.TitleText
+import com.mackbex.rickdex.core.ui.theme.RickdexTheme
+import com.mackbex.rickdex.core.ui.theme.StatusAlive
+import com.mackbex.rickdex.core.ui.theme.StatusDead
+import com.mackbex.rickdex.core.ui.theme.StatusUnknown
 import com.mackbex.rickdex.domain.model.Character
 import com.mackbex.rickdex.domain.model.sampleCharacters
-import com.mackbex.rickdex.ui.theme.RickdexTheme
-import com.mackbex.rickdex.ui.theme.StatusAlive
-import com.mackbex.rickdex.ui.theme.StatusDead
-import com.mackbex.rickdex.ui.theme.StatusUnknown
 
 
 @Composable
@@ -38,9 +38,8 @@ fun CharacterCard(
       modifier = Modifier.padding(16.dp),
       verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-      Text(
+      TitleText(
         text = character.name,
-        style = MaterialTheme.typography.titleMedium
       )
       Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -55,15 +54,12 @@ fun CharacterCard(
           },
           modifier = Modifier.size(8.dp)
         ) { }
-        Text(
+        CaptionText(
           text = "${character.status} - ${character.species}",
-          style = MaterialTheme.typography.bodySmall
         )
       }
-      Text(
+      CaptionText(
         text = character.origin,
-        style = MaterialTheme.typography.bodySmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant
       )
     }
   }

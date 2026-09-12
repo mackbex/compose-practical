@@ -28,8 +28,8 @@ android {
     }
   }
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
   }
   buildFeatures {
     compose = true
@@ -38,6 +38,7 @@ android {
 
 dependencies {
   implementation(project(":domain"))
+  implementation(project(":core:ui"))
   implementation(libs.androidx.compose.material.icons.extended)
   implementation(libs.androidx.navigation3.runtime)
   implementation(libs.androidx.navigation3.ui)

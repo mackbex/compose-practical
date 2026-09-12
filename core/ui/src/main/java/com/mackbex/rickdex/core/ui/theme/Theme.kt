@@ -1,4 +1,4 @@
-package com.mackbex.rickdex.ui.theme
+package com.mackbex.rickdex.core.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

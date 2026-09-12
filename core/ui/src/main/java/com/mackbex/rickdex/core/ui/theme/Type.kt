@@ -1,4 +1,4 @@
-package com.mackbex.rickdex.ui.theme
+package com.mackbex.rickdex.core.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -9,7 +9,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -17,8 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mackbex.rickdex.core.ui.components.BodyText
+import com.mackbex.rickdex.core.ui.components.LabelText
+import com.mackbex.rickdex.core.ui.theme.RickdexTheme
 import com.mackbex.rickdex.domain.model.sampleCharacters
-import com.mackbex.rickdex.ui.theme.RickdexTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,14 +70,11 @@ fun CharacterDetailScreen(
 @Composable
 private fun DetailRow(label: String, value: String) {
   Column {
-    Text(
+    LabelText(
       text = label,
-      style = MaterialTheme.typography.labelMedium,
-      color = MaterialTheme.colorScheme.onSurfaceVariant
     )
-    Text(
+    BodyText(
       text = value,
-      style = MaterialTheme.typography.bodyLarge
     )
   }
 }
