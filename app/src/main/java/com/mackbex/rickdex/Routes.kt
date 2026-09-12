@@ -4,7 +4,7 @@ import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object CharacterListRoute : NavKey
+data object CharacterListNavKey : NavKey
 
 @Serializable
-data class CharacterDetailRoute(val characterId: Int) : NavKey
+data class CharacterDetailNavKey(val characterId: Int) : NavKey
