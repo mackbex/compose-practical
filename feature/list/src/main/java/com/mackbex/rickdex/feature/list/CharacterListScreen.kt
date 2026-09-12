@@ -165,8 +165,8 @@ fun CharacterListScreen(
                   if (character != null) {
                     CharacterCard(
                       character = character,
-                      onClick = { onCharacterClick(character.id) },
-                      onBookmarkClick = { onBookmarkClick(character.id) }
+                      onClick = onCharacterClick,
+                      onBookmarkClick = onBookmarkClick
                     )
                   }
                 }

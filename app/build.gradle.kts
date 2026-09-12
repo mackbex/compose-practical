@@ -6,6 +6,7 @@ plugins {
   alias(libs.plugins.ksp)
 }
 
+
 android {
   namespace = "com.mackbex.rickdex"
   compileSdk {
@@ -38,6 +39,11 @@ android {
   }
 }
 
+
+composeCompiler {
+  reportsDestination = layout.buildDirectory.dir("compose_compiler")
+}
+
 dependencies {
   implementation(project(":data"))
   implementation(project(":domain"))
@@ -46,6 +52,7 @@ dependencies {
   implementation(project(":feature:detail"))
   implementation(project(":feature:settings"))
 
+  debugImplementation(libs.leakcanary.android)
   implementation(libs.androidx.lifecycle.viewmodel.navigation3)
   implementation(libs.hilt.android)
   ksp(libs.hilt.compiler)

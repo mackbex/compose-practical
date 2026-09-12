@@ -38,12 +38,12 @@ import com.mackbex.rickdex.domain.character.model.sampleCharacters
 @Composable
 fun CharacterCard(
   character: Character,
-  onClick: () -> Unit,
-  onBookmarkClick: () -> Unit,
+  onClick: (Int) -> Unit,
+  onBookmarkClick: (Int) -> Unit,
   modifier: Modifier = Modifier
 ) {
   Card(
-    onClick = onClick,
+    onClick = { onClick(character.id) },
     modifier = modifier.fillMaxWidth()
   ) {
     Row(
@@ -88,7 +88,7 @@ fun CharacterCard(
           text = character.origin,
         )
       }
-      IconButton(onClick = onBookmarkClick) {
+      IconButton(onClick = { onBookmarkClick(character.id) }) {
         Icon(
           imageVector = if (character.isBookmarked) {
             Icons.Default.Favorite
