@@ -26,6 +26,11 @@ android {
 dependencies {
   implementation(project(":domain"))
 
+  testImplementation(libs.junit)
+  testImplementation(libs.mockk)
+  testImplementation(libs.turbine)
+  testImplementation(libs.kotlinx.coroutines.test)
+  
   implementation(libs.androidx.datastore.preferences)
   implementation(libs.androidx.datastore.core)
   implementation(libs.androidx.room.runtime)
@@ -41,4 +46,5 @@ dependencies {
 
   implementation(libs.hilt.android)
   ksp(libs.hilt.compiler)
+
 }

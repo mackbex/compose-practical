@@ -30,6 +30,15 @@ dependencies {
   implementation(project(":domain"))
   implementation(project(":core:ui"))
 
+  testImplementation(libs.junit)
+  testImplementation(libs.mockk)
+  testImplementation(libs.turbine)
+  testImplementation(libs.kotlinx.coroutines.test)
+
+  androidTestImplementation(platform(libs.androidx.compose.bom))
+  androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+  debugImplementation(libs.androidx.compose.ui.test.manifest)
+  
   implementation(libs.coil.compose)
   implementation(libs.coil.network.okhttp)
   implementation(libs.androidx.compose.material.icons.extended)
