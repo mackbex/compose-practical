@@ -22,6 +22,7 @@ class CharacterRepositoryImpl @Inject constructor(
   override fun getCharactersPaged(query: String?): Flow<PagingData<Character>> = Pager(
     config = PagingConfig(
       pageSize = 20,
+      prefetchDistance = 5,
       enablePlaceholders = false
     ),
     pagingSourceFactory = { CharacterPagingSource(api, query) }

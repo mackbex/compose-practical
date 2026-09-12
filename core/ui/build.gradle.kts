@@ -26,6 +26,8 @@ android {
 }
 
 dependencies {
+  implementation(project(":domain"))
+
   api(libs.androidx.navigation3.runtime)
   implementation(libs.kotlinx.serialization.json)
   implementation(platform(libs.androidx.compose.bom))

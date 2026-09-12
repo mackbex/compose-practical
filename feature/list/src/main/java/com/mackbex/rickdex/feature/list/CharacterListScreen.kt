@@ -17,10 +17,16 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -30,8 +36,11 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import com.mackbex.rickdex.core.ui.asMessage
 import com.mackbex.rickdex.core.ui.components.BodyText
 import com.mackbex.rickdex.domain.character.model.Character
+import com.mackbex.rickdex.domain.common.DataError
+import com.mackbex.rickdex.domain.common.DataErrorException
 
 @Composable
 fun CharacterListRoute(
@@ -64,7 +73,28 @@ fun CharacterListScreen(
   onBookmarkClick: (Int) -> Unit,
   modifier: Modifier = Modifier
 ) {
+
+  val snackbarHostState = remember { SnackbarHostState() }
+  val appendError = (characters.loadState.append as? LoadState.Error)?.error
+  val message = (appendError as? DataErrorException)?.error?.asMessage()
+
+  LaunchedEffect(message) {
+    if (message != null) {
+      val result = snackbarHostState.showSnackbar(
+        message = message,
+        actionLabel = "Retry",
+        duration = SnackbarDuration.Short
+      )
+
+      if (result == SnackbarResult.ActionPerformed) {
+        characters.retry()
+      }
+    }
+
+  }
+
   Scaffold(
+    snackbarHost = { SnackbarHost(snackbarHostState) },
     modifier = modifier.fillMaxSize(),
     topBar = {
       TopAppBar(title = { Text("Characters") })
@@ -94,12 +124,13 @@ fun CharacterListScreen(
           }
 
           is LoadState.Error -> {
+            val error = (refresh.error as? DataErrorException)?.error ?: DataError.Network.UNKNOWN
             Column(
               modifier = Modifier.align(Alignment.Center),
               horizontalAlignment = Alignment.CenterHorizontally,
               verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-              BodyText(refresh.error.message ?: "failed load")
+              BodyText(error.asMessage())
               Button(onClick = { characters.retry() }) { Text("Retry") }
             }
           }

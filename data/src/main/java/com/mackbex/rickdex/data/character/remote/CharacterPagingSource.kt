@@ -3,7 +3,9 @@ package com.mackbex.rickdex.data.character.remote
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mackbex.rickdex.data.character.remote.mapper.toDomain
+import com.mackbex.rickdex.data.common.toDataError
 import com.mackbex.rickdex.domain.character.model.Character
+import com.mackbex.rickdex.domain.common.DataErrorException
 import okio.IOException
 import retrofit2.HttpException
 
@@ -25,10 +27,10 @@ class CharacterPagingSource(
       if (e.code() == 404) {
         LoadResult.Page(data = emptyList(), prevKey = null, nextKey = null)
       } else {
-        LoadResult.Error(e)
+        LoadResult.Error(DataErrorException(e.toDataError()))
       }
     } catch (e: IOException) {
-      LoadResult.Error(e)
+      LoadResult.Error(DataErrorException(e.toDataError()))
     }
   }
 

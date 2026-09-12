@@ -6,11 +6,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -33,8 +35,25 @@ object NetworkModule {
       level = HttpLoggingInterceptor.Level.BODY
     }
 
+    val retryInterceptor = Interceptor { chain ->
+      var response = chain.proceed(chain.request())
+      var attempt = 0
+
+      while (response.code == 429 && attempt < 3) {
+        val waitSeconds = response.header("retry-after")?.toLongOrNull() ?: 2
+        response.close()
+        Thread.sleep(waitSeconds * 1000)
+        attempt++
+        response = chain.proceed(chain.request())
+      }
+      response
+    }
+
     return OkHttpClient.Builder()
+      .addInterceptor(retryInterceptor)
       .addInterceptor(logging)
+      .connectTimeout(15, TimeUnit.SECONDS)
+      .readTimeout(15, TimeUnit.SECONDS)
       .build()
   }
 
