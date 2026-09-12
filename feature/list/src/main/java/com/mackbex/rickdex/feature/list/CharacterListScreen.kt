@@ -5,16 +5,21 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -39,8 +44,9 @@ fun CharacterListRoute(
   CharacterListScreen(
     uiState = uiState,
     onCharacterClick = onCharacterClick,
-    onRetry = viewModel::loadCharacters,
+    onRetry = viewModel::retry,
     onRefresh = viewModel::refresh,
+    onQueryChange = viewModel::onQueryChange,
     modifier = modifier
   )
 
@@ -53,6 +59,7 @@ fun CharacterListScreen(
   onCharacterClick: (Int) -> Unit,
   onRetry: () -> Unit,
   onRefresh: () -> Unit,
+  onQueryChange: (String) -> Unit,
   modifier: Modifier = Modifier
 ) {
   Scaffold(
@@ -61,37 +68,48 @@ fun CharacterListScreen(
       TopAppBar(title = { Text("Characters") })
     }
   ) { innerPadding ->
-    Box(
+    Column(
       modifier = Modifier
         .fillMaxSize()
         .padding(innerPadding)
     ) {
-      when {
-        uiState.isLoading -> {
-          CircularProgressIndicator(
-            modifier = Modifier.align(Alignment.Center)
-          )
-        }
+      OutlinedTextField(
+        value = uiState.query,
+        onValueChange = onQueryChange,
+        placeholder = { Text("Search") },
+        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+        singleLine = true,
+        shape = RoundedCornerShape(12.dp),
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 16.dp, vertical = 8.dp)
+      )
 
-        uiState.errorMessage != null -> {
-          Column(
-            modifier = Modifier.align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-          ) {
-            BodyText(uiState.errorMessage)
-            Button(onClick = onRetry) {
-              Text("Retry")
+      Box(modifier = Modifier.fillMaxSize()) {
+        when {
+          uiState.isLoading -> {
+            CircularProgressIndicator(Modifier.align(Alignment.Center))
+          }
+
+          uiState.errorMessage != null -> {
+            Column(
+              modifier = Modifier.align(Alignment.Center),
+              horizontalAlignment = Alignment.CenterHorizontally,
+              verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+              BodyText(uiState.errorMessage)
+              Button(onClick = onRetry) { Text("다시 시도") }
             }
           }
-        }
 
-        else -> {
-          PullToRefreshBox(
-            isRefreshing = uiState.isRefreshing,
-            onRefresh = onRefresh,
-            modifier = Modifier.fillMaxSize()
-          ) {
+          uiState.characters.isEmpty() -> {
+            BodyText(
+              text = "검색 결과가 없습니다",
+              modifier = Modifier.align(Alignment.Center)
+            )
+          }
+
+          else -> {
             LazyColumn(
               modifier = Modifier.fillMaxSize(),
               contentPadding = PaddingValues(16.dp),
@@ -120,7 +138,8 @@ private fun CharacterListPreview() {
       uiState = CharacterListUiState(characters = sampleCharacters),
       onCharacterClick = {},
       onRetry = {},
-      onRefresh = {}
+      onRefresh = {},
+      onQueryChange = {}
     )
   }
 }
@@ -133,7 +152,8 @@ private fun CharacterListLoadingPreview() {
       uiState = CharacterListUiState(isLoading = true),
       onCharacterClick = {},
       onRetry = {},
-      onRefresh = {}
+      onRefresh = {},
+      onQueryChange = {}
     )
   }
 }
