@@ -48,6 +48,7 @@ fun CharacterListRoute(
     characters = characters,
     onQueryChange = viewModel::onQueryChange,
     onCharacterClick = onCharacterClick,
+    onBookmarkClick = viewModel::onBookmarkClick,
     modifier = modifier
   )
 
@@ -60,6 +61,7 @@ fun CharacterListScreen(
   characters: LazyPagingItems<Character>,
   onQueryChange: (String) -> Unit,
   onCharacterClick: (Int) -> Unit,
+  onBookmarkClick: (Int) -> Unit,
   modifier: Modifier = Modifier
 ) {
   Scaffold(
@@ -119,7 +121,8 @@ fun CharacterListScreen(
                   if (character != null) {
                     CharacterCard(
                       character = character,
-                      onClick = { onCharacterClick(character.id) }
+                      onClick = { onCharacterClick(character.id) },
+                      onBookmarkClick = { onBookmarkClick(character.id) }
                     )
                   }
                 }

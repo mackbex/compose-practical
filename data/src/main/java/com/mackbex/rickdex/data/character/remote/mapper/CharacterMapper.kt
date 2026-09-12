@@ -9,7 +9,8 @@ fun CharacterDto.toDomain(): Character = Character(
   status = status,
   species = species,
   origin = origin.name,
-  imageUrl = image
+  imageUrl = image,
+  isBookmarked = false
 )
 
 fun List<CharacterDto>.toDomain(): List<Character> = map { it.toDomain() }

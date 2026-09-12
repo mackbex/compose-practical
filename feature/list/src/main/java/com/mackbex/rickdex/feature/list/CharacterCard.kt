@@ -9,7 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -34,6 +39,7 @@ import com.mackbex.rickdex.domain.character.model.sampleCharacters
 fun CharacterCard(
   character: Character,
   onClick: () -> Unit,
+  onBookmarkClick: () -> Unit,
   modifier: Modifier = Modifier
 ) {
   Card(
@@ -55,7 +61,7 @@ fun CharacterCard(
           .background(MaterialTheme.colorScheme.surfaceVariant)
       )
       Column(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.weight(1f),
         verticalArrangement = Arrangement.spacedBy(4.dp)
       ) {
         TitleText(
@@ -82,8 +88,22 @@ fun CharacterCard(
           text = character.origin,
         )
       }
+      IconButton(onClick = onBookmarkClick) {
+        Icon(
+          imageVector = if (character.isBookmarked) {
+            Icons.Default.Favorite
+          } else {
+            Icons.Default.FavoriteBorder
+          },
+          contentDescription = if (character.isBookmarked) "Unfavorite" else "Favorite",
+          tint = if (character.isBookmarked) {
+            MaterialTheme.colorScheme.primary
+          } else {
+            MaterialTheme.colorScheme.onSurfaceVariant
+          }
+        )
+      }
     }
-
   }
 }
 
@@ -91,6 +111,6 @@ fun CharacterCard(
 @Composable
 private fun CharacterCardPreview() {
   RickdexTheme(dynamicColor = false) {
-    CharacterCard(sampleCharacters[0], {})
+    CharacterCard(sampleCharacters[0], {}, onBookmarkClick = {})
   }
 }

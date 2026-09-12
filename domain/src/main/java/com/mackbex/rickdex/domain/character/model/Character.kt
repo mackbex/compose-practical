@@ -6,5 +6,6 @@ data class Character(
   val status: String,
   val species: String,
   val origin: String,
-  val imageUrl: String
+  val imageUrl: String,
+  val isBookmarked: Boolean = false
 )
