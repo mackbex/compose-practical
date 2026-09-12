@@ -1,4 +1,4 @@
-package com.mackbex.rickdex
+package com.mackbex.rickdex.feature.detail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
