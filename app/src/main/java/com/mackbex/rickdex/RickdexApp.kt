@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.mackbex.rickdex.domain.model.sampleCharacters
+import com.mackbex.rickdex.domain.character.model.sampleCharacters
 import com.mackbex.rickdex.feature.detail.CharacterDetailScreen
 import com.mackbex.rickdex.feature.list.CharacterListScreen
 

@@ -1,6 +1,6 @@
 package com.mackbex.rickdex.data.di
 
-import com.mackbex.rickdex.data.remote.CharacterApi
+import com.mackbex.rickdex.data.character.remote.CharacterApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

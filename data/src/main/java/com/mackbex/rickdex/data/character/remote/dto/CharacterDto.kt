@@ -1,4 +1,4 @@
-package com.mackbex.rickdex.data.remote.dto
+package com.mackbex.rickdex.data.character.remote.dto
 
 import kotlinx.serialization.Serializable
 

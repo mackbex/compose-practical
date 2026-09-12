@@ -1,4 +1,4 @@
-package com.mackbex.rickdex.domain.model
+package com.mackbex.rickdex.domain.character.model
 
 val sampleCharacters = listOf(
   Character(1, "Rick Sanchez", "Alive", "Human", "Earth (C-137)"),

@@ -20,8 +20,8 @@ import com.mackbex.rickdex.core.ui.theme.RickdexTheme
 import com.mackbex.rickdex.core.ui.theme.StatusAlive
 import com.mackbex.rickdex.core.ui.theme.StatusDead
 import com.mackbex.rickdex.core.ui.theme.StatusUnknown
-import com.mackbex.rickdex.domain.model.Character
-import com.mackbex.rickdex.domain.model.sampleCharacters
+import com.mackbex.rickdex.domain.character.model.Character
+import com.mackbex.rickdex.domain.character.model.sampleCharacters
 
 
 @Composable

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.mackbex.rickdex.core.ui.components.BodyText
 import com.mackbex.rickdex.core.ui.components.LabelText
 import com.mackbex.rickdex.core.ui.theme.RickdexTheme
-import com.mackbex.rickdex.domain.model.sampleCharacters
+import com.mackbex.rickdex.domain.character.model.sampleCharacters
 
 
 @OptIn(ExperimentalMaterial3Api::class)

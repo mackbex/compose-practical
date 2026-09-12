@@ -1,4 +1,4 @@
-package com.mackbex.rickdex.domain.model
+package com.mackbex.rickdex.domain.character.model
 
 data class Character(
   val id: Int,

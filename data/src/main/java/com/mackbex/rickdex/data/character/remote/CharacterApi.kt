@@ -1,7 +1,7 @@
-package com.mackbex.rickdex.data.remote
+package com.mackbex.rickdex.data.character.remote
 
-import com.mackbex.rickdex.data.remote.dto.CharacterDto
-import com.mackbex.rickdex.data.remote.dto.CharacterResponseDto
+import com.mackbex.rickdex.data.character.remote.dto.CharacterDto
+import com.mackbex.rickdex.data.character.remote.dto.CharacterResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
