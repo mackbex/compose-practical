@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.mackbex.rickdex.feature.detail.CharacterDetailScreen
+import com.mackbex.rickdex.feature.detail.CharacterDetailRoute
 import com.mackbex.rickdex.feature.list.CharacterListRoute
 
 
@@ -26,7 +26,7 @@ fun RickdexApp(modifier: Modifier = Modifier) {
       }
 
       entry<CharacterDetailNavKey> { key ->
-        CharacterDetailScreen(
+        CharacterDetailRoute(
           characterId = key.characterId,
           onBack = { backStack.removeLastOrNull() }
         )
