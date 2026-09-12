@@ -8,3 +8,6 @@ data object CharacterListNavKey : NavKey
 
 @Serializable
 data class CharacterDetailNavKey(val characterId: Int) : NavKey
+
+@Serializable
+data object SettingsNavKey : NavKey

@@ -44,6 +44,7 @@ dependencies {
   implementation(project(":core:ui"))
   implementation(project(":feature:list"))
   implementation(project(":feature:detail"))
+  implementation(project(":feature:settings"))
 
   implementation(libs.androidx.lifecycle.viewmodel.navigation3)
   implementation(libs.hilt.android)

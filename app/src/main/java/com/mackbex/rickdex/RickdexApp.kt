@@ -9,8 +9,10 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.mackbex.rickdex.core.ui.navigation.CharacterDetailNavKey
 import com.mackbex.rickdex.core.ui.navigation.CharacterListNavKey
+import com.mackbex.rickdex.core.ui.navigation.SettingsNavKey
 import com.mackbex.rickdex.feature.detail.CharacterDetailRoute
 import com.mackbex.rickdex.feature.list.CharacterListRoute
+import com.mackbex.rickdex.settings.SettingsRoute
 
 
 @Composable
@@ -30,7 +32,8 @@ fun RickdexApp(modifier: Modifier = Modifier) {
         CharacterListRoute(
           onCharacterClick = { id ->
             backStack.add(CharacterDetailNavKey(id))
-          }
+          },
+          onSettingsClick = { backStack.add(SettingsNavKey) }
         )
       }
 
@@ -41,6 +44,11 @@ fun RickdexApp(modifier: Modifier = Modifier) {
         )
       }
 
+      entry<SettingsNavKey> {
+        SettingsRoute(
+          onBack = { backStack.removeLastOrNull() }
+        )
+      }
     }
   )
 }

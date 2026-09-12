@@ -11,10 +11,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -45,8 +47,10 @@ import com.mackbex.rickdex.domain.common.DataErrorException
 @Composable
 fun CharacterListRoute(
   onCharacterClick: (Int) -> Unit,
+  onSettingsClick: () -> Unit,
   modifier: Modifier = Modifier,
   viewModel: CharacterListViewModel = hiltViewModel()
+
 ) {
 
   val query by viewModel.query.collectAsStateWithLifecycle()
@@ -58,9 +62,9 @@ fun CharacterListRoute(
     onQueryChange = viewModel::onQueryChange,
     onCharacterClick = onCharacterClick,
     onBookmarkClick = viewModel::onBookmarkClick,
+    onSettingsClick = onSettingsClick,
     modifier = modifier
   )
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,6 +75,7 @@ fun CharacterListScreen(
   onQueryChange: (String) -> Unit,
   onCharacterClick: (Int) -> Unit,
   onBookmarkClick: (Int) -> Unit,
+  onSettingsClick: () -> Unit,
   modifier: Modifier = Modifier
 ) {
 
@@ -97,9 +102,17 @@ fun CharacterListScreen(
     snackbarHost = { SnackbarHost(snackbarHostState) },
     modifier = modifier.fillMaxSize(),
     topBar = {
-      TopAppBar(title = { Text("Characters") })
-    }
-  ) { innerPadding ->
+      TopAppBar(
+        title = { Text("Characters") },
+        actions = {
+          IconButton(onClick = onSettingsClick) {
+            Icon(Icons.Default.Settings, contentDescription = "설정")
+          }
+        })
+
+    },
+
+    ) { innerPadding ->
     Column(
       modifier = Modifier
         .fillMaxSize()
