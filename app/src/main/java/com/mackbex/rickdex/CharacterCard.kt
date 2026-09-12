@@ -25,9 +25,13 @@ import com.mackbex.rickdex.ui.theme.StatusUnknown
 @Composable
 fun CharacterCard(
   character: Character,
+  onClick: () -> Unit,
   modifier: Modifier = Modifier
 ) {
-  Card(modifier = modifier.fillMaxWidth()) {
+  Card(
+    onClick = onClick,
+    modifier = modifier.fillMaxWidth()
+  ) {
     Column(
       modifier = Modifier.padding(16.dp),
       verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -67,6 +71,6 @@ fun CharacterCard(
 @Composable
 private fun CharacterCardPreview() {
   RickdexTheme(dynamicColor = false) {
-    CharacterCard(sampleCharacters[0])
+    CharacterCard(sampleCharacters[0], {})
   }
 }
