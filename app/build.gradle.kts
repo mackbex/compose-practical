@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+  implementation(project(":domain"))
   implementation(libs.androidx.compose.material.icons.extended)
   implementation(libs.androidx.navigation3.runtime)
   implementation(libs.androidx.navigation3.ui)

@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Rickdex"
 include(":app")
- 
+include(":domain")
