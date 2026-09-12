@@ -29,7 +29,9 @@ android {
 dependencies {
   implementation(project(":domain"))
   implementation(project(":core:ui"))
-  
+
+  implementation(libs.coil.compose)
+  implementation(libs.coil.network.okhttp)
   implementation(libs.androidx.compose.material.icons.extended)
   implementation(libs.hilt.android)
   ksp(libs.hilt.compiler)

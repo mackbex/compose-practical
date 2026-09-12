@@ -30,6 +30,8 @@ dependencies {
   implementation(project(":domain"))
   implementation(project(":core:ui"))
 
+  implementation(libs.coil.compose)
+  implementation(libs.coil.network.okhttp)
   implementation(libs.hilt.android)
   ksp(libs.hilt.compiler)
   implementation(libs.androidx.hilt.navigation.compose)

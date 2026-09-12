@@ -8,7 +8,8 @@ fun CharacterDto.toDomain(): Character = Character(
   name = name,
   status = status,
   species = species,
-  origin = origin.name
+  origin = origin.name,
+  imageUrl = image
 )
 
 fun List<CharacterDto>.toDomain(): List<Character> = map { it.toDomain() }
