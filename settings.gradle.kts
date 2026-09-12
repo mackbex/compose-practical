@@ -26,3 +26,5 @@ rootProject.name = "Rickdex"
 include(":app")
 include(":domain")
 include(":core:ui")
+include(":feature:list")
+include(":feature:detail")
