@@ -4,20 +4,21 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mackbex.rickdex.ui.theme.RickdexTheme
@@ -44,50 +45,62 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     modifier = modifier
       .fillMaxSize()
       .padding(16.dp),
-    verticalArrangement = Arrangement.spacedBy(8.dp),
+    verticalArrangement = Arrangement.spacedBy(16.dp),
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     Text(
       text = "Rickdex",
       style = MaterialTheme.typography.headlineLarge,
       color = MaterialTheme.colorScheme.primary,
-      modifier = modifier
     )
-    Text(
-      text = "Rick and Morty 캐릭터 도감",
-      style = MaterialTheme.typography.bodyMedium,
-      modifier = modifier
-    )
+    CounterScreen()
   }
 
 }
 
 
 @Composable
-fun ModifierOrderDemo() {
-  Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+fun CounterScreen(modifier: Modifier = Modifier) {
+  var count by rememberSaveable { mutableIntStateOf(0) }
 
-    Box(
-      Modifier
-        .padding(16.dp)
-        .background(Color.Red)
-        .size(80.dp)
+  CounterDisplay(
+    count = count,
+    onIncrement = { count++ },
+    modifier = modifier
+  )
+}
+
+
+@Composable
+fun CounterDisplay(
+  count: Int,
+  onIncrement: () -> Unit,
+  modifier: Modifier = Modifier
+) {
+
+  Column(
+    modifier = modifier,
+    verticalArrangement = Arrangement.spacedBy(8.dp),
+    horizontalAlignment = Alignment.CenterHorizontally
+  ) {
+
+    Text(
+      text = "Count: $count",
+      style = MaterialTheme.typography.headlineMedium
     )
-    Box(
-      Modifier
-        .background(Color.Blue)
-        .padding(16.dp)
-        .size(80.dp)
-    )
+
+    Button(onClick = onIncrement) {
+      Text("incresed")
+    }
   }
 }
 
 
 @Preview(name = "box", showBackground = true)
 @Composable
-private fun ModifierOrderPreview() {
+private fun CounterPreview() {
   RickdexTheme(dynamicColor = false) {
-    ModifierOrderDemo()
+    CounterScreen()
   }
 }
 
