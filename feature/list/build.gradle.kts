@@ -30,6 +30,7 @@ dependencies {
   implementation(project(":domain"))
   implementation(project(":core:ui"))
 
+  implementation(libs.androidx.paging.compose)
   implementation(libs.androidx.compose.material.icons.extended)
   implementation(libs.coil.compose)
   implementation(libs.coil.network.okhttp)

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -24,14 +23,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.mackbex.rickdex.core.ui.components.BodyText
-import com.mackbex.rickdex.core.ui.theme.RickdexTheme
-import com.mackbex.rickdex.domain.character.model.sampleCharacters
-
+import com.mackbex.rickdex.domain.character.model.Character
 
 @Composable
 fun CharacterListRoute(
@@ -39,14 +39,15 @@ fun CharacterListRoute(
   modifier: Modifier = Modifier,
   viewModel: CharacterListViewModel = hiltViewModel()
 ) {
-  val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+  val query by viewModel.query.collectAsStateWithLifecycle()
+  val characters = viewModel.characters.collectAsLazyPagingItems()
 
   CharacterListScreen(
-    uiState = uiState,
-    onCharacterClick = onCharacterClick,
-    onRetry = viewModel::retry,
-    onRefresh = viewModel::refresh,
+    query = query,
+    characters = characters,
     onQueryChange = viewModel::onQueryChange,
+    onCharacterClick = onCharacterClick,
     modifier = modifier
   )
 
@@ -55,11 +56,10 @@ fun CharacterListRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterListScreen(
-  uiState: CharacterListUiState,
-  onCharacterClick: (Int) -> Unit,
-  onRetry: () -> Unit,
-  onRefresh: () -> Unit,
+  query: String,
+  characters: LazyPagingItems<Character>,
   onQueryChange: (String) -> Unit,
+  onCharacterClick: (Int) -> Unit,
   modifier: Modifier = Modifier
 ) {
   Scaffold(
@@ -74,7 +74,7 @@ fun CharacterListScreen(
         .padding(innerPadding)
     ) {
       OutlinedTextField(
-        value = uiState.query,
+        value = query,
         onValueChange = onQueryChange,
         placeholder = { Text("Search") },
         leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
@@ -86,42 +86,59 @@ fun CharacterListScreen(
       )
 
       Box(modifier = Modifier.fillMaxSize()) {
-        when {
-          uiState.isLoading -> {
+        when (val refresh = characters.loadState.refresh) {
+          is LoadState.Loading -> {
             CircularProgressIndicator(Modifier.align(Alignment.Center))
           }
 
-          uiState.errorMessage != null -> {
+          is LoadState.Error -> {
             Column(
               modifier = Modifier.align(Alignment.Center),
               horizontalAlignment = Alignment.CenterHorizontally,
               verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-              BodyText(uiState.errorMessage)
-              Button(onClick = onRetry) { Text("다시 시도") }
+              BodyText(refresh.error.message ?: "failed load")
+              Button(onClick = { characters.retry() }) { Text("Retry") }
             }
-          }
-
-          uiState.characters.isEmpty() -> {
-            BodyText(
-              text = "검색 결과가 없습니다",
-              modifier = Modifier.align(Alignment.Center)
-            )
           }
 
           else -> {
-            LazyColumn(
-              modifier = Modifier.fillMaxSize(),
-              contentPadding = PaddingValues(16.dp),
-              verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-              items(uiState.characters, key = { it.id }) { character ->
-                CharacterCard(
-                  character = character,
-                  onClick = { onCharacterClick(character.id) }
-                )
+            if (characters.itemCount == 0) {
+              BodyText(
+                text = "검색 결과가 없습니다",
+                modifier = Modifier.align(Alignment.Center)
+              )
+            } else {
+              LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+              ) {
+                items(characters.itemCount, key = characters.itemKey { it.id }) { index ->
+                  val character = characters[index]
+                  if (character != null) {
+                    CharacterCard(
+                      character = character,
+                      onClick = { onCharacterClick(character.id) }
+                    )
+                  }
+                }
+
+                if (characters.loadState.append is LoadState.Loading) {
+                  item {
+                    Box(
+                      modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                      contentAlignment = Alignment.Center
+                    ) {
+                      CircularProgressIndicator()
+                    }
+                  }
+                }
               }
             }
+
           }
         }
       }
@@ -129,31 +146,3 @@ fun CharacterListScreen(
   }
 }
 
-
-@Preview(showBackground = true)
-@Composable
-private fun CharacterListPreview() {
-  RickdexTheme(dynamicColor = false) {
-    CharacterListScreen(
-      uiState = CharacterListUiState(characters = sampleCharacters),
-      onCharacterClick = {},
-      onRetry = {},
-      onRefresh = {},
-      onQueryChange = {}
-    )
-  }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun CharacterListLoadingPreview() {
-  RickdexTheme(dynamicColor = false) {
-    CharacterListScreen(
-      uiState = CharacterListUiState(isLoading = true),
-      onCharacterClick = {},
-      onRetry = {},
-      onRefresh = {},
-      onQueryChange = {}
-    )
-  }
-}

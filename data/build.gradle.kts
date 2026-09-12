@@ -26,6 +26,7 @@ android {
 dependencies {
   implementation(project(":domain"))
 
+  implementation(libs.androidx.paging.runtime)
   implementation(libs.retrofit)
   implementation(libs.retrofit.kotlinx.serialization)
   implementation(libs.okhttp)
